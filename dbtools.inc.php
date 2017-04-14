@@ -2,7 +2,7 @@
   function create_connection()
   {
   //第三個參數要依電腦不同更改密碼
-    $link = mysqli_connect("localhost", "root", "08162426")
+    $link = mysqli_connect("localhost", "帳號", "密碼")
       or die("無法建立資料連接: " . mysqli_connect_error());
 	  
     mysqli_query($link, "SET NAMES utf8");
