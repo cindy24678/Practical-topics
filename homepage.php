@@ -1,15 +1,3 @@
-<?php
-//判斷使用者是否已登入
-	if (isset($_COOKIE["account"])) { //判斷cookie中是否已建立"account"
-		if ($_COOKIE["account"] == null or $_COOKIE["account"] == ""){ //判斷"account"中是否有資料
-	 		header("Location:login.html"); //如果沒有就跳回登入頁面
-		}	
-	}
-	else{
-		header("Location:login.html"); //如果沒有就跳回登入頁面
-	}
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -27,6 +15,13 @@
 		<link rel="stylesheet" href="assets/css/form-elements.css">
         <link rel="stylesheet" href="assets/css/style.css">
 
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
         <!-- 上方圖檔 -->
         <link rel="shortcut icon" href="assets/ico/favicon.png">
         <link rel="apple-touch-icon-precomposed" sizes="144x144" href="assets/ico/apple-touch-icon-144-precomposed.png">
@@ -34,20 +29,13 @@
         <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/ico/apple-touch-icon-72-precomposed.png">
         <link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
 
-        <script type="text/javascript">
-            function check_data()
-            {   
-                if (document.user.ckpassword.value != document.user.password.value)
-                {
-                    alert("password error");
-                    return false;
-                }
-                else
-                {
-                 user.submit();
-                }
-            }
-        </script>
+
+
+
+
+
+
+
     </head>
 
     <body>
@@ -75,7 +63,9 @@
                                                                      onmouseout="this.src='assets/ico/member center.png'"
                                                                      onmouseover="this.src='assets/ico/member center click.png'"
                                                                      onclick="setBanner(); showFlag(); "/><font color="#FFAA33" > Member </font></a></li>
-              <?php 
+            
+
+               <?php 
                 if (isset($_COOKIE["account"])){   //判斷cookie中是否已建立"account"
                     
                     if ($_COOKIE["account"] == null or $_COOKIE["account"] == ""){ //判斷"account"中是否有資料
@@ -90,7 +80,8 @@
                   echo "<li><a href='login.html'><img src='assets/ico/bar_sign in.png' width='50' height='50'><font color='#FFAA33' > Sign in </font></a></li>";
                 }
 
-          ?>                     
+             ?>                     
+        
           </ul>
           
         </div><!--/.nav-collapse -->
@@ -98,97 +89,94 @@
     </nav>  
 
 
+ <div class="row">       
+        <p></p>
+</div>
+ <div class="row">   
+        <p></p>
+</div>
+ <div class="row">       
+        <p></p>
+</div>
+ <div class="row">   
+        <p></p>
+</div>
+ <div class="row">       
+        <p></p>
+</div>
+ <div class="row">   
+        <p></p>
+</div>
+ <div class="row">       
+        <p></p>
+</div>
+ <div class="row">   
+        <p></p>
+</div>
+ <div class="row">       
+        <p></p>
+</div>
+ <div class="row">   
+        <p></p>
+</div>
+ <div class="row">       
+        <p></p>
+</div>
+ <div class="row">   
+        <p></p>
+</div>
+
+
+
+
+
+
         <!-- Top content -->
-        <div class="top-content">
-            <div class="inner-bg">
-                <div class="container">
-                                                          <!-- 第一列 -->
-                        <div class="col-sm-8 col-sm-offset-2 text">
-                        <!-- 用圖檔(CHICKEN) -->
-                            <h1><img src="assets/ico/coop.png" alt=""> </h1>                 
-                        </div>
+        <div class="hero-unit">
+
+
+
+
+        <a href="gather.html"><img src="assets/img/japan.png" alt="" width="150" height="150" 
+                                                                     onmouseout="this.src='assets/img/japan.png'"
+                                                                     onmouseover="this.src='assets/img/japan_after.png'"
+                                                                     onclick="setBanner(); showFlag(); "/></a>
+        <a href="gather.html"><img src="assets/img/french.png" alt="" width="150" height="150" 
+                                                                     onmouseout="this.src='assets/img/french.png'"
+                                                                     onmouseover="this.src='assets/img/french_after.png'"
+                                                                     onclick="setBanner(); showFlag(); "/></a>
+
+       
+        <a href="gather.html"><img src="chickenman.png" width="150" height="150" onMouseOver="this.width=this.width*1.2;this.height=this.height*1.2" onMouseOut="this.width=this.width/1.2;this.height=this.height/1.2" ></a>
+
+        <a href="gather.html"><img src="chickenman.png" width="150" height="150" onMouseOver="this.width=this.width*1.2;this.height=this.height*1.2" onMouseOut="this.width=this.width/1.2;this.height=this.height/1.2" ></a>
+
+              <h1><span style="font-family:fantasy;"> <font color="#FFAA33" >What do you want to learn?</font></span></h1>
               
+      </div>
+      <!-- Main hero unit for a primary marketing message or call to action -->
+      <br>
+      <div class="hero-unit">
+
+
+        <a href="gather.html"><img src="chickenman.png" width="150" height="150" onMouseOver="this.width=this.width*1.2;this.height=this.height*1.2" onMouseOut="this.width=this.width/1.2;this.height=this.height/1.2" ></a>
+
+        <a href="gather.html"><img src="chickenman.png" width="150" height="150" onMouseOver="this.width=this.width*1.2;this.height=this.height*1.2" onMouseOut="this.width=this.width/1.2;this.height=this.height/1.2" ></a>
+
+        <a href="gather.html"><img src="chickenman.png" width="150" height="150" onMouseOver="this.width=this.width*1.2;this.height=this.height*1.2" onMouseOut="this.width=this.width/1.2;this.height=this.height/1.2" ></a>
+
+        <a href="gather.html"><img src="chickenman.png" width="150" height="150" onMouseOver="this.width=this.width*1.2;this.height=this.height*1.2" onMouseOut="this.width=this.width/1.2;this.height=this.height/1.2" ></a>
 
 
 
-                    <div class="row">                                            <!-- 第二列 -->
-
-                    <div class="col-sm-4 book">                                   <!-- 左邊 -->
-                        <!-- 小雞圖 -->
-                           <h2> <span style="font-family:monospace;"><font color="orange">- profile -</font> </span> </h2>   
-                           <h3> <a href="change_password.php" > <span style="font-family:monospace;"><font color="#F50000">Change Password</font></span> </a> </h3>  
-                           <h3> <a href="change_profile.php"> <span style="font-family:monospace;"><font color="#F5F500">Change profile</font></span></a> </h3>  
-                           <br>
-                           <h2> <span style="font-family:monospace;"><font color="orange">- order -</font> </span> </h2>    
-                           <h3> <a href="placement_services_page.php"> <span style="font-family:monospace;"><font color="#00CC00">Placement services</font></span></a> </h3>  
-                           <h3> <a href="wishing_pool_page.php"> <span style="font-family:monospace;"><font color="#0000FA">Wishing pool</span></font></a> </h3>  
-                           
-                           <h3> <a href="match.php"> <span style="font-family:monospace;"><font color="#BBBB00">match order</font></span></a> </h3>  
-                        </div>
-
-                        <div class="col-sm-7 form-box">                               <!-- 右邊 -->
-                                            
-<div class="row">       
-        <p></p>
-</div>
- <div class="row">   
-        <p></p>
-</div>
- <div class="row">       
-        <p></p>
-</div>
-                                            
-<div class="row">       
-        <p></p>
-</div>
- <div class="row">   
-        <p></p>
-</div>
- <div class="row">       
-        <p></p>
-</div>
-
-                        	<div class="form-top">
-                        		<div class="form-top-left">
-                        			<!-- 用圖檔(Log in) -->
-                        			<h3>before use member center </h3>
-                        		</div>
-                        		<div class="form-top-right">
-                        			<i class="fa fa-pencil"></i>
-                        		</div>
-                            </div>
-
-                            <div class="form-bottom">
-			                    <form role="form" action="before_center_ckpwd.php" method="post" class="registration-form">
-			                        <div class="form-group">
-			                        	<label class="sr-only" for="form-last-name">Password</label>
-			                        	<input type="text" id="password" name="password" placeholder="Password..." class="form-last-name form-control">
-			                        </div>
-			                        
-			                        
-			                        <div class="top-big-link">
-                            			
-                            			<BUTTON type="submit" onClick="check_data()" WIDTH="200" style="WIDTH: 197px; HEIGHT: 50px" class="btn btn-link-1" href="#">Submit</button>
-                            			
-                                    </div>
-									
-
-			                    </form>
-		                    </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-        </div>
+      </div>
 
 
 
 
 
 
-
-
+    
 
         <!-- Javascript -->
         <script src="assets/js/jquery-1.11.1.min.js"></script>
@@ -197,6 +185,10 @@
         <script src="assets/js/retina-1.1.0.min.js"></script>
         <script src="assets/js/scripts.js"></script>
         
+        <!--[if lt IE 10]>
+            <script src="assets/js/placeholder.js"></script>
+        <![endif]-->
+
     </body>
 
 </html>

@@ -54,14 +54,29 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li><a href="homepage.html"><img src="assets/ico/logo.png" width="50" height="50"   ><font color="#FFAA33" > Homepage</font></a></li>
+            <li><a href="homepage.php"><img src="assets/ico/logo.png" width="50" height="50"   ><font color="#FFAA33" > Homepage</font></a></li>
             <li><a href="supply_page.php"><img src="assets/ico/post.png" width="50" height="50"><font color="#FFAA33" > Supply </font></a></li>
             <li><a href="demand_page.php"><img src="assets/ico/wishing well.png" width="50" height="50"><font color="#FFAA33" > Demand </font></a></li>
             <li><a href="before_use_member_center.php"><img src="assets/ico/member center.png" alt="" width="50" height="50" 
                                                                      onmouseout="this.src='assets/ico/member center.png'"
                                                                      onmouseover="this.src='assets/ico/member center click.png'"
                                                                      onclick="setBanner(); showFlag(); "/><font color="#FFAA33" > Member </font></a></li>
-            <li><a href="login.html"><img src="assets/ico/bar_sign in.png" width="50" height="50"><font color="#FFAA33" > Sign in </font></a></li>
+            <?php 
+                if (isset($_COOKIE["account"])){   //判斷cookie中是否已建立"account"
+                    
+                    if ($_COOKIE["account"] == null or $_COOKIE["account"] == ""){ //判斷"account"中是否有資料
+                        echo "<li><a href='login.html'><img src='assets/ico/bar_sign in.png' width='50' height='50'><font color='#FFAA33' > Sign in </font></a></li>";
+                       
+                    }else{
+                      
+                       echo" <li><a href='signout.php'><img src='assets/ico/bar_sign in.png' width='50' height='50'><font color='#FFAA33'> Sign out </font></a></li>";
+                       
+                    }
+                }else{
+                  echo "<li><a href='login.html'><img src='assets/ico/bar_sign in.png' width='50' height='50'><font color='#FFAA33' > Sign in </font></a></li>";
+                }
+
+             ?>               
         
           </ul>
           
@@ -98,8 +113,7 @@
                            <h2> <span style="font-family:monospace;"><font color="orange">- order -</font> </span> </h2>    
                            <h3> <a href="placement_services_page.php"> <span style="font-family:monospace;"><font color="#00CC00">Placement services</font></span></a> </h3>  
                            <h3> <a href="wishing_pool_page.php"> <span style="font-family:monospace;"><font color="#0000FA">Wishing pool</span></font></a> </h3>  
-                           <h3> <a href="order_has_been_created_page.php"> <span style="font-family:monospace;"><font color="#7600CC">Order has been created</font></span></a> </h3>  
-                           <h3> <a href="order_has_been_not_created_page.php"> <span style="font-family:monospace;"><font color="#FFFFFF">Order has been not created</font></span></a> </h3>  
+                     
                            <h3> <a href="match.php"> <span style="font-family:monospace;"><font color="#BBBB00">match order</font></span></a> </h3>  
                         </div>
 
@@ -127,7 +141,7 @@
                                           $link = create_connection();
                                                 
                                           //執行 SQL 命令
-                                          $sql = "SELECT supply_code ,supplier,supply_title,update_time FROM commodity_supply WHERE supplier = '$account'  ORDER BY supply_code DESC ";
+                                          $sql = "SELECT supply_title,lan_listen,lan_say,lan_read,lan_write,update_time,supply_code FROM commodity_supply WHERE supplier = '$account'  ORDER BY supply_code DESC ";
 
                                           $result = execute_sql($link, "chicken", $sql);
                                           
@@ -155,9 +169,33 @@
           {
             echo "<tr>";
             echo "<td width='120' align='center'><img src='assets/img/刊登.png'></td>";
-            echo "<td bgcolor='" . $bg[$j - 1] . "'>作者：" . $row["supplier"] . "<br>";
-            echo "主題：" . $row["supply_title"] . "<br>";
-            echo "時間：" . $row["update_time"] ."<p>" ;
+            echo "<td bgcolor=''" . $bg[$j - 1] ."<td> <font color='#FFAA33'>title：</font> <font color='#FFFFFF'>"  . $row["supply_title"] ."</font><br>";
+
+            echo "<font color='#FFAA33'>ability：</font>"  ;
+
+                                                             if ($row["lan_listen"] == '1') 
+                                                             {
+                                                              echo " <font color='#FFFFFF'>Listen</font>";
+                                                             } 
+
+                                                             if ($row["lan_say"]  == '1') 
+                                                             {
+                                                              echo " <font color='#FFFFFF'>Speak</font>";
+
+                                                             }  
+
+                                                            if ($row["lan_read"]== '1') 
+                                                            {
+                                                              echo " <font color='#FFFFFF'>Read</font>";
+                                                            }
+
+                                                            if ($row["lan_write"]  == '1') 
+                                                            {
+                                                              echo " <font color='#FFFFFF'>Write</font>";
+                                                            }
+               
+            echo "<br>";
+             echo"<font color='#FFAA33'>Uptime：</font> <font color='#FFFFFF'>"  . $row["update_time"] ."</font><br>";
             
           
             echo "<a href='save_new_personal_supply.php? supply_code=";

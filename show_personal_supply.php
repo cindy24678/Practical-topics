@@ -1,6 +1,11 @@
 <?php 
       require_once("dbtools.inc.php");
-      
+      //取得使用者登入帳號
+      if (isset($_COOKIE["account"])) { //判斷cookie中是否已建立"account"
+        if (!($_COOKIE["account"] == null or $_COOKIE["account"] == "")){ //判斷"account"中是否有資料
+          $account = $_COOKIE["account"];
+        }   
+      }
       //取得要顯示之記錄
       $supply_code = $_GET['supply_code'];
     
@@ -15,6 +20,7 @@
   $lan_say = $_POST["lan_say"];
   $lan_read = $_POST["lan_read"];
   $lan_write = $_POST["lan_write"];
+  $country = $_POST["country"];
   $on_line = $_POST["on_line"];
   $record = $_POST["record"];
   $face_to_face = $_POST["face_to_face"];
@@ -44,6 +50,7 @@
       $lan_say = $meta->lan_say;
       $lan_read = $meta->lan_read;
       $lan_write = $meta->lan_write;
+      $country = $meta->country; 
       $on_line = $meta->on_line;
       $record = $meta->record;
       $face_to_face = $meta->face_to_face;
@@ -129,15 +136,29 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li><a href="homepage.html"><img src="assets/ico/logo.png" width="50" height="50"   ><font color="#FFAA33" > Homepage</font></a></li>
+            <li><a href="homepage.php"><img src="assets/ico/logo.png" width="50" height="50"   ><font color="#FFAA33" > Homepage</font></a></li>
             <li><a href="supply_page.php"><img src="assets/ico/post.png" width="50" height="50"><font color="#FFAA33" > Supply </font></a></li>
             <li><a href="demand_page.php"><img src="assets/ico/wishing well.png" width="50" height="50"><font color="#FFAA33" > Demand </font></a></li>
             <li><a href="before_use_member_center.php"><img src="assets/ico/member center.png" alt="" width="50" height="50" 
                                                                      onmouseout="this.src='assets/ico/member center.png'"
                                                                      onmouseover="this.src='assets/ico/member center click.png'"
                                                                      onclick="setBanner(); showFlag(); "/><font color="#FFAA33" > Member </font></a></li>
-            <li><a href="login.html"><img src="assets/ico/bar_sign in.png" width="50" height="50"><font color="#FFAA33" > Sign in </font></a></li>
-        
+            <?php 
+                if (isset($_COOKIE["account"])){   //判斷cookie中是否已建立"account"
+                    
+                    if ($_COOKIE["account"] == null or $_COOKIE["account"] == ""){ //判斷"account"中是否有資料
+                        echo "<li><a href='login.html'><img src='assets/ico/bar_sign in.png' width='50' height='50'><font color='#FFAA33' > Sign in </font></a></li>";
+                       
+                    }else{
+                      
+                       echo" <li><a href='signout.php'><img src='assets/ico/bar_sign in.png' width='50' height='50'><font color='#FFAA33'> Sign out </font></a></li>";
+                       
+                    }
+                }else{
+                  echo "<li><a href='login.html'><img src='assets/ico/bar_sign in.png' width='50' height='50'><font color='#FFAA33' > Sign in </font></a></li>";
+                }
+
+             ?>        
           </ul>
           
         </div><!--/.nav-collapse -->
@@ -175,7 +196,7 @@
 
        <tr class="" style="border:hidden">
              <td> <font color="#FFAA33">supplier：</font></td> 
-            <!--<td> <font color='#FFFFFF'>  <?php echo "<a href='show_personal_information.php?supplier=". $supplier ?> </a></font><br></td> -->
+           
              <td> <font color='#FFFFFF'>  <?php echo $supplier ?> </a></font><br></td>
 
        </tr>
@@ -221,6 +242,10 @@
                    </font> 
              </td>
        </tr>
+        <tr class="" style="border:hidden">
+             <td > <font color="#FFAA33">country：</font></td> 
+             <td > <font color='#FFFFFF'>  <?php echo $country ?>  </font> </td>
+       </tr>
 
 
         <tr class="" style="border:hidden">
@@ -263,19 +288,19 @@
 </table>
 						      <div class="top-big-link">
 
-						     
-						             <?php 
-                               echo "<a href='supply_page.php";
-                               echo "'> <input type='button' value='return'></a>" ;
+						       <?php 
 
-						            
-						                   echo "<a href='save_revise_supply.php?supply_code=";
-						                   echo $supply_code . "'> <input type='button' value='revise'></a>" ;
-						      
-                                
-						                   echo "<a href='save_match_request.php?supply_code=";
-						                   echo $supply_code . "'> <input type='button' value='match'></a>"; ?> 
-						       
+                                 echo "<a href='supply_page.php";
+                                 echo "'> <input type='button' value='return'></a>";
+                              if ($supplier == $account){                                
+                                 echo "<a href='save_revise_supply.php?supply_code=";
+                                 echo $supply_code . "'> <input type='button' value='revise'></a>";
+                              }else{
+                                 echo "<a href='save_match_request.php?supply_code=";
+                                 echo $supply_code . "'> <input type='button' value='match'></a>";
+                              }
+                               
+                        ?>
 						             
 						      </div>
 						      <div>

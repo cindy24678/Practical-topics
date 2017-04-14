@@ -29,18 +29,17 @@
   // {
   //釋放 $result 佔用的記憶體	
   //mysqli_free_result($result);
-		
-    //執行 SQL 命令，新增會員資料
-    $sql = "INSERT INTO user_information (account, name ,identity_number, phone, email) VALUES ('$account', '$name', '$identity_number', '$phone', '$email')";
+	
+        //執行 SQL 命令，新增會員資料
+    $sql = "INSERT INTO user_information (account, name, country ,identity_number, phone, email) VALUES ('$account', '$name', '$country', '$identity_number', '$phone', '$email')";
     
     $result = execute_sql($link, "chicken", $sql);
   //}
 
     mysqli_close($link);
 
-   // header("Location:num1.html");
-    //exit;
-    header("Location:homepage.html");
+ 
+    header("Location:homepage.php");
     exit;
 
  ?>

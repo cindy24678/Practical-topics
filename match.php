@@ -33,33 +33,48 @@
 <body>
 <!-- Top menu -->
    <!-- Top menu -->
-    <nav class="navbar navbar-inverse navbar-no-bg" role="navigation">
+   <nav class="navbar navbar-default navbar-fixed-top">
       <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          
 
-        <div class="collapse navbar-collapse" id="top-navbar-1">
-          <ul class="nav navbar-nav navbar-left">
-            <li>
-              <span class="li-social">
-                           
-                                <a href="homepage.html"><img src="assets/ico/logo.png" width="100" height="100"></a> 
-                               
-                                <a href="supply_page.php"><img src="assets/ico/post.png" width="100" height="100"></a> 
-                           
-                                <a href="demand_page.php"><img src="assets/ico/wishing well.png" width="100" height="100"></a> 
-                           
-                                <a href="before_use_member_center.php"> <img src="assets/ico/member center.png" alt="" width="100" height="100" 
+          <a class="navbar-brand" href="#"></a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="homepage.php"><img src="assets/ico/logo.png" width="50" height="50"   ><font color="#FFAA33" > Homepage</font></a></li>
+            <li><a href="supply_page.php"><img src="assets/ico/post.png" width="50" height="50"><font color="#FFAA33" > Supply </font></a></li>
+            <li><a href="demand_page.php"><img src="assets/ico/wishing well.png" width="50" height="50"><font color="#FFAA33" > Demand </font></a></li>
+            <li><a href="before_use_member_center.php"><img src="assets/ico/member center.png" alt="" width="50" height="50" 
                                                                      onmouseout="this.src='assets/ico/member center.png'"
                                                                      onmouseover="this.src='assets/ico/member center click.png'"
-                                                                     onclick="setBanner(); showFlag(); "/></a>
-                                <a href="login.html"><img src="assets/ico/bar_sign in.png" width="100" height="100"></a>
+                                                                     onclick="setBanner(); showFlag(); "/><font color="#FFAA33" > Member </font></a></li>
+             <?php 
+                if (isset($_COOKIE["account"])){   //判斷cookie中是否已建立"account"
+                    
+                    if ($_COOKIE["account"] == null or $_COOKIE["account"] == ""){ //判斷"account"中是否有資料
+                        echo "<li><a href='login.html'><img src='assets/ico/bar_sign in.png' width='50' height='50'><font color='#FFAA33' > Sign in </font></a></li>";
+                       
+                    }else{
+                      
+                       echo" <li><a href='signout.php'><img src='assets/ico/bar_sign in.png' width='50' height='50'><font color='#FFAA33'> Sign out </font></a></li>";
+                       
+                    }
+                }else{
+                  echo "<li><a href='login.html'><img src='assets/ico/bar_sign in.png' width='50' height='50'><font color='#FFAA33' > Sign in </font></a></li>";
+                }
 
-                               
-                            </span>
-            </li>
-          </ul>
-        </div>
+             ?>               
+          
+        </div><!--/.nav-collapse -->
       </div>
-    </nav>
+    </nav>  
 
         <!-- Top content -->
         <div class="top-content">
@@ -90,8 +105,7 @@
                            <h2> <span style="font-family:monospace;"><font color="orange">- order -</font> </span> </h2>    
                            <h3> <a href="placement_services_page.php"> <span style="font-family:monospace;"><font color="#00CC00">Placement services</font></span></a> </h3>  
                            <h3> <a href="wishing_pool_page.php"> <span style="font-family:monospace;"><font color="#0000FA">Wishing pool</span></font></a> </h3>  
-                           <h3> <a href="order_has_been_created_page.php"> <span style="font-family:monospace;"><font color="#7600CC">Order has been created</font></span></a> </h3>  
-                           <h3> <a href="order_has_been_not_created_page.php"> <span style="font-family:monospace;"><font color="#FFFFFF">Order has been not created</font></span></a> </h3>  
+                        
                            <h3> <a href="match.php"> <span style="font-family:monospace;"><font color="#BBBB00">match order</font></span></a> </h3>  
                         </div>
 
@@ -125,7 +139,7 @@
 
 	 
 
-	  echo "--------Match to your supplies--------<p>";   
+	  echo "<font color='#FFFFFF'>--------Match to your supplies--------</font><p>";   
 	  $i = 1;
 	//外迴圈(控制供給(使用者)方)
 	  while ($row = mysqli_fetch_assoc($result_user) and $i <= $user_supplies){
@@ -137,7 +151,7 @@
 
 	    $demands = mysqli_num_rows($result_others);
 	    $j = 1;
-	    echo "----" . $row["supply_title"] . "----";
+	    echo "<td><h4><font color='#000000'>【title : " . $row["supply_title"] . "】</font></h4><br>"; //顯示title
 	  //內迴圈(控制需求(他人)方)
 	    while ($dem = mysqli_fetch_assoc($result_others) and $j <= $demands){
 	    	
@@ -155,41 +169,69 @@
 		  		
 	        	$j++; //比對下一筆需求資料
 	    }
-	    usort($filt_dem, 'score_sort'); //依分數排序媒合資料
-	    
-	    
-	    for ($k = 1; $k <= min($demands, 3); $k++){ //最多列印3筆，不足時僅列印符合的筆數
-	    	
-		//依filt_dem取得的demand_code尋找資料
-			$sql ="SELECT demander, demand_title, update_time FROM commodity_demand WHERE demand_code = '{$filt_dem[$k-1]["demand_code"]}'";
-	    	
-	    	$matched = execute_sql($link, "chicken", $sql);
-	    	$matched_row = mysqli_fetch_assoc($matched);
+	    if (is_null($filt_dem)){ //確認是否有相符資料
+	    	echo "找不到相符的資料<br>";
+	    }else{
+		    usort($filt_dem, 'score_sort'); //依分數排序媒合資料
+		    
+		    
+		    for ($k = 1; $k <= min($demands, 3); $k++){ //最多列印3筆，不足時僅列印符合的筆數
+		    	
+			//依filt_dem取得的demand_code尋找資料
+				$sql ="SELECT demand_title, lan_listen,lan_say,lan_read,lan_write,update_time FROM commodity_demand WHERE demand_code = '{$filt_dem[$k-1]["demand_code"]}'";
+		    	
+		    	$matched = execute_sql($link, "chicken", $sql);
+		    	$matched_row = mysqli_fetch_assoc($matched);
 
-	    	
-	    	if ($filt_dem[$k-1]["score"] >= 1){ //評分大於1時輸出資料
+		    	
+		    	if ($filt_dem[$k-1]["score"] >= 1){ //評分大於1時輸出資料
 
-	    		echo "<table width='500' align='center' cellspacing='3'>";
-	    	    	  echo "<tr>";
-	        	    	echo "<td width='120' align='center'><img src='assets/img/刊登.png'></td>";
-	            		echo "<td>作者：" . $matched_row["demander"] . "<br>";
-	              		echo "主題：" . $matched_row["demand_title"] . "<br>";
-	             	 	echo "時間：" . $matched_row["update_time"] ."<p>" ;
-	     		
-	        	    	  echo "<a href='show_personal_demand.php?demand_code=";
-	            	  	echo $filt_dem["demand_code"] . "'> <input type='button' value='查看'></a>"; 
+		    		echo "<table width='500' align='center' cellspacing='3'>";
+		    	    	  echo "<tr>";
+		        	    	echo "<td width='120' align='center'><img src='assets/img/刊登.png'></td>";
+		            		echo "<td><font color='#FFAA33'>title：</font>" . "<font color='#FFFFFF'>" . $matched_row["demand_title"] . "</font><br>";
+		            		
+		              		 echo "<font color='#FFAA33'>ability：</font>"  ;
+
+                                                             if ($row["lan_listen"] == '1') 
+                                                             {
+                                                              echo " <font color='#FFFFFF'>Listen</font>";
+                                                             } 
+
+                                                             if ($row["lan_say"]  == '1') 
+                                                             {
+                                                              echo " <font color='#FFFFFF'>Speak</font>";
+
+                                                             }  
+
+                                                            if ($row["lan_read"]== '1') 
+                                                            {
+                                                              echo " <font color='#FFFFFF'>Read</font>";
+                                                            }
+
+                                                            if ($row["lan_write"]  == '1') 
+                                                            {
+                                                              echo " <font color='#FFFFFF'>Write</font>";
+
+                                                            }
+                            echo "<br>";
+		             	 	echo "<font color='#FFAA33'>uptime：</font>" . "<font color='#FFFFFF'>" . $matched_row["update_time"] ."<p>" ;
+		     		
+		        	    	  echo "<a href='show_personal_demand.php?demand_code=";
+		            	  	echo $filt_dem[$k-1]["demand_code"] . "'> <input type='button' value='查看'></a>"; 
 
 
 
-	            		  echo "<hr>";
-	            		echo "</td>";
-	           
-	        	  	echo "</tr>";
-	        		echo "</table>" ;
-	    	}else {  
-	    		break;  //否則直接跳出for迴圈
-	    	} 	
-	    }
+		            		  echo "<hr>";
+		            		echo "</td>";
+		           
+		        	  	echo "</tr>";
+		        		echo "</table>" ;
+		    	}else {  
+		    		break;  //否則直接跳出for迴圈
+		    	}
+		    }
+		}
 	    $i++; //比對下一筆使用者供給資料
 
 	  }
@@ -202,7 +244,12 @@
 
 	    $user_demands = mysqli_num_rows($result_user); //使用者刊登了幾筆demand
 
-	  echo "--------Match to your demands--------<p>";
+     echo "<p>";
+      echo "<p>";
+       echo "<p>";
+     echo "🐔🐔🐔🐔🐔🐔🐔🐔🐔🐔🐔🐔🐔🐔🐔🐔<p>";
+
+	   echo "<font color='#FFFFFF'>--------Match to your demands--------</font><p>";   
 	  $i = 1;
 	//外迴圈(控制需求(使用者)方)
 	  while ($row = mysqli_fetch_assoc($result_user) and $i <= $user_demands){
@@ -214,7 +261,7 @@
 
 	    $supplies = mysqli_num_rows($result_others);
 	    $j = 1;
-	    echo "----" . $row["demand_title"] . "----";
+	    echo "<td><h4><font color='#000000'>【title : " . $row["demand_title"] . "】</font></h4><br>"; //顯示title
 	  //內迴圈(控制供給(他人)方)
 	    while ($sup = mysqli_fetch_assoc($result_others) and $j <= $supplies){
 	    	
@@ -232,40 +279,69 @@
 		  		
 	        	$j++; //比對下一筆供給資料
 	    }
-	    usort($filt_sup, 'score_sort'); //依分數排序媒合資料
+
+	   	if (is_null($filt_sup)){ //確認是否有相符資料
+	   		echo "找不到相符的資料 <br>";
+	   	}else{
+	   		usort($filt_sup, 'score_sort'); //依分數排序媒合資料
 	    
 	    
-	    for ($k = 1; $k <= min($supplies, 3); $k++){ //最多列印3筆，不足時僅列印符合的筆數
-	    	
-		//依filt_sup取得的supply_code尋找資料
-			$sql ="SELECT supplier, supply_title, update_time FROM commodity_supply WHERE supply_code = '{$filt_sup[$k-1]["supply_code"]}'";
-	    	
-	    	$matched = execute_sql($link, "chicken", $sql);
-	    	$matched_row = mysqli_fetch_assoc($matched);
+		    for ($k = 1; $k <= min($supplies, 3); $k++){ //最多列印3筆，不足時僅列印符合的筆數
+		    	
+			//依filt_sup取得的supply_code尋找資料
+				$sql ="SELECT supplier, supply_title, update_time FROM commodity_supply WHERE supply_code = '{$filt_sup[$k-1]["supply_code"]}'";
+		    	
+		    	$matched = execute_sql($link, "chicken", $sql);
+		    	$matched_row = mysqli_fetch_assoc($matched);
 
-	    	
-	    	if ($filt_sup[$k-1]["score"] >= 1){ //評分大於1時輸出資料
-	    	
-	    		echo "<table width='500' align='center' cellspacing='3'>";
-	    	    	  echo "<tr>";
-	        	    	echo "<td width='120' align='center'><img src='assets/img/刊登.png'></td>";
-	            		echo "<td>作者：" . $matched_row["supplier"] . "<br>";
-	              		echo "主題：" . $matched_row["supply_title"] . "<br>";
-	             	 	echo "時間：" . $matched_row["update_time"] ."<p>" ;
-	     		
-	        	    	  echo "<a href='show_personal_supply.php?supply_code=";
-	            	  	echo $filt_sup["supply_code"] . "'> <input type='button' value='查看'></a>"; 
+		    	
+		    	if ($filt_sup[$k-1]["score"] >= 1){ //評分大於1時輸出資料
+		    	
+		    		echo "<table width='500' align='center' cellspacing='3'>";
+		    	    	  echo "<tr>";
+		        	    	echo "<td width='120' align='center'><img src='assets/img/刊登.png'></td>";
+		            		echo "<td><font color='#FFAA33'>title：</font>" . "<font color='#FFFFFF'>" . $matched_row["supply_title"] . "</font><br>";
+		            		
+		              		 echo "<font color='#FFAA33'>ability：</font>"  ;
+
+                                                             if ($row["lan_listen"] == '1') 
+                                                             {
+                                                              echo " <font color='#FFFFFF'>Listen</font>";
+                                                             } 
+
+                                                             if ($row["lan_say"]  == '1') 
+                                                             {
+                                                              echo " <font color='#FFFFFF'>Speak</font>";
+
+                                                             }  
+
+                                                            if ($row["lan_read"]== '1') 
+                                                            {
+                                                              echo " <font color='#FFFFFF'>Read</font>";
+                                                            }
+
+                                                            if ($row["lan_write"]  == '1') 
+                                                            {
+                                                              echo " <font color='#FFFFFF'>Write</font>";
+
+                                                            }
+                            echo "<br>";
+		             	 	echo "<font color='#FFAA33'>uptime：</font>" . "<font color='#FFFFFF'>" . $matched_row["update_time"] ."<p>" ;
+		        	    	  echo "<a href='show_personal_supply.php?supply_code=";
+		            	  	echo $filt_sup[$k-1]["supply_code"] . "'> <input type='button' value='查看'></a>"; 
 
 
 
-	            		  echo "<hr>";
-	            		echo "</td>";
-	           
-	        	  	echo "</tr>";
-	        		echo "</table>" ;
-	    	}else {  
-	    		break;  //否則直接跳出for迴圈
-	    	} 	
+		            		  echo "<hr>";
+		            		echo "</td>";
+		           
+		        	  	echo "</tr>";
+		        		echo "</table>" ;
+		    	}else {  
+		    		break;  //否則直接跳出for迴圈
+		    	} 	
+		   	}
+	    
 	    }
 	    $i++; //比對下一筆使用者需求資料
 
@@ -275,7 +351,6 @@
 //釋放記憶體空間
 	mysqli_free_result($result_user);
     mysqli_free_result($result_others);
-    mysqli_free_result($matched);
 
     mysqli_close($link);
 ?>    

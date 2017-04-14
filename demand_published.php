@@ -75,14 +75,29 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li><a href="homepage.html"><img src="assets/ico/logo.png" width="50" height="50"   ><font color="#FFAA33" > Homepage</font></a></li>
+            <li><a href="homepage.php"><img src="assets/ico/logo.png" width="50" height="50"   ><font color="#FFAA33" > Homepage</font></a></li>
             <li><a href="supply_page.php"><img src="assets/ico/post.png" width="50" height="50"><font color="#FFAA33" > Supply </font></a></li>
             <li><a href="demand_page.php"><img src="assets/ico/wishing well.png" width="50" height="50"><font color="#FFAA33" > Demand </font></a></li>
             <li><a href="before_use_member_center.php"><img src="assets/ico/member center.png" alt="" width="50" height="50" 
                                                                      onmouseout="this.src='assets/ico/member center.png'"
                                                                      onmouseover="this.src='assets/ico/member center click.png'"
                                                                      onclick="setBanner(); showFlag(); "/><font color="#FFAA33" > Member </font></a></li>
-            <li><a href="login.html"><img src="assets/ico/bar_sign in.png" width="50" height="50"><font color="#FFAA33" > Sign in </font></a></li>
+               <?php 
+                if (isset($_COOKIE["account"])){   //判斷cookie中是否已建立"account"
+                    
+                    if ($_COOKIE["account"] == null or $_COOKIE["account"] == ""){ //判斷"account"中是否有資料
+                        echo "<li><a href='login.html'><img src='assets/ico/bar_sign in.png' width='50' height='50'><font color='#FFAA33' > Sign in </font></a></li>";
+                       
+                    }else{
+                      
+                       echo" <li><a href='signout.php'><img src='assets/ico/bar_sign in.png' width='50' height='50'><font color='#FFAA33'> Sign out </font></a></li>";
+                       
+                    }
+                }else{
+                  echo "<li><a href='login.html'><img src='assets/ico/bar_sign in.png' width='50' height='50'><font color='#FFAA33' > Sign in </font></a></li>";
+                }
+
+          ?>                     
         
           </ul>
           
@@ -148,12 +163,17 @@
 			                    	<hr>
 			                  
                                 <!-- Single button -->
-									<select  id='language' name='language'>
-                                                            <option value='null'>  choose a language  </option>
-                                                            <option value='Chinese'>  Chinese  </option>
-                                                            <option value='Japan'>  Japan  </option>
-                                                            <option value='English'>  English  </option>
-                                    </select>
+								                         <select  id='language' name='language' class="span10">
+                                                                    <option value='null'>  choose a language  </option>
+                                                                    <option value='Chinese'>  Chinese  </option>
+                                                                    <option value='Japan'>  Japan  </option>
+                                                                    <option value='English'>  English  </option>
+                                                                    <option value='français'>  français  </option>
+                                                                    <option value='Deutsche Sprache'>  Deutsche Sprache  </option>
+                                                                    <option value='언문Hangeul'>  Hangeul  </option>
+                                                                    <option value='russkij jazyk'>  russkij jazyk  </option>
+                                                                    <option value='Reino de España'> Reino de España </option>
+                                                        </select>
                                             
 								<!--language ability-->
 									<p>
@@ -174,7 +194,19 @@
 										    <input type="checkbox" id="lan_write" name="lan_write" value="1"  />
 										    Write</label> 
 
-                                		<hr>	
+                                		<hr>  
+                                                         <select  id='country' name='country' class="span10">
+                                                                    <option value='null'>  choose a country  </option>
+                                                                    <option value='Taiwan'>  Taiwan  </option>
+                                                                    <option value='Japan'>  Japan  </option>
+                                                                    <option value='Korean'>  Korean  </option>
+                                                                    <option value='China'>  China  </option>
+                                                                    <option value='Germany'>  Germany  </option>
+                                                                    <option value='Spain'>  Spain  </option>
+                                                                    <option value='France'>  France  </option>
+                                                                    <option value='Singapore'> Singapore </option>
+                                                        </select>
+                                            <hr>	
 
 									</p>
 

@@ -47,8 +47,9 @@
 
     <body>
 
-		<!-- Top menu -->
-		 <nav class="navbar navbar-default navbar-fixed-top">
+
+		
+            	 <nav class="navbar navbar-default navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -63,21 +64,38 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li><a href="homepage.html"><img src="assets/ico/logo.png" width="50" height="50"   ><font color="#FFAA33" > Homepage</font></a></li>
+            <li><a href="homepage.php"><img src="assets/ico/logo.png" width="50" height="50"   ><font color="#FFAA33" > Homepage</font></a></li>
             <li><a href="supply_page.php"><img src="assets/ico/post.png" width="50" height="50"><font color="#FFAA33" > Supply </font></a></li>
             <li><a href="demand_page.php"><img src="assets/ico/wishing well.png" width="50" height="50"><font color="#FFAA33" > Demand </font></a></li>
             <li><a href="before_use_member_center.php"><img src="assets/ico/member center.png" alt="" width="50" height="50" 
                                                                      onmouseout="this.src='assets/ico/member center.png'"
                                                                      onmouseover="this.src='assets/ico/member center click.png'"
                                                                      onclick="setBanner(); showFlag(); "/><font color="#FFAA33" > Member </font></a></li>
-            <li><a href="login.html"><img src="assets/ico/bar_sign in.png" width="50" height="50"><font color="#FFAA33" > Sign in </font></a></li>
+
+           <?php 
+                if (isset($_COOKIE["account"])){   //判斷cookie中是否已建立"account"
+                    
+                    if ($_COOKIE["account"] == null or $_COOKIE["account"] == ""){ //判斷"account"中是否有資料
+                        echo "<li><a href='login.html'><img src='assets/ico/bar_sign in.png' width='50' height='50'><font color='#FFAA33' > Sign in </font></a></li>";
+                       
+                    }else{
+                      
+                       echo" <li><a href='signout.php'><img src='assets/ico/bar_sign in.png' width='50' height='50'><font color='#FFAA33'> Sign out </font></a></li>";
+                       
+                    }
+                }else{
+                  echo "<li><a href='login.html'><img src='assets/ico/bar_sign in.png' width='50' height='50'><font color='#FFAA33' > Sign in </font></a></li>";
+                }
+
+          ?>                                
+
+      
         
           </ul>
           
         </div><!--/.nav-collapse -->
       </div>
     </nav>  
-
 
         <!-- Top content -->
         <div class="top-content">
@@ -87,7 +105,6 @@
 
 
 
-                
 <div class="row">       
         <p></p>
 </div>
@@ -97,6 +114,12 @@
  <div class="row">       
         <p></p>
 </div>
+
+
+
+
+
+
                     <div class="row">
                         <div class="col-sm-7 col-sm-offset-2 text">
                         <!-- 用圖檔(CHICKEN) -->
@@ -111,13 +134,12 @@
 
 
                         <div class="col-sm-5 form-box">
+                            
                         	
                             
-			                    <form role="form" action="save_userdata.php" method="post" class="user-form" name="user">
-			                    
-
-
-                                <?php
+                    		<form role="form" name="user" action="save_user.php" method="post" class="user-form">
+                    			                   
+                                     <?php
                                           require_once("dbtools.inc.php");
                                                 
                                           //指定每頁顯示幾筆記錄
@@ -135,6 +157,14 @@
                                           //執行 SQL 命令
                                           $sql = "SELECT * FROM commodity_demand ORDER BY demand_code DESC";    
                                           $result = execute_sql($link, "chicken", $sql);
+
+                                              $meta = mysqli_fetch_object($result);
+
+                                              $lan_listen = $meta->lan_listen;
+                                              $lan_say = $meta->lan_say;
+                                              $lan_read = $meta->lan_read;
+                                              $lan_write = $meta->lan_write;
+
 
                                           //取得記錄數
                                           $total_records = mysqli_num_rows($result);
@@ -155,18 +185,53 @@
                                           $j = 1;
                                           while ($row = mysqli_fetch_assoc($result) and $j <= $records_per_page)
                                           {
+                                            echo "<tr>";
+                                           
                                             echo "<tr bgcolor='" . $bg[$j - 1] . "'>";
                                            
-                                            echo "<td>作者：" . $row["demander"] . "<br>";
-                                            echo "主題：" . $row["demand_title"] . "<br>";
-                                            echo "時間：" . $row["update_time"] ;
+                                           // echo "<td>作者：" . $row["supplier"] . "<br>";
+            echo "<font color='#FFAA33'>Title：</font>  <font color='#FFFFFF'>".$row["demand_title"] ."</font><br>";
+
+
+                                            echo "<font color='#FFAA33'>
+ability：</font>"  ;
+
+                                                             if ($row["lan_listen"] == '1') 
+                                                             {
+                                                              echo " <font color='#FFFFFF'>Listen</font>";
+                                                             } 
+
+                                                             if ($row["lan_say"]  == '1') 
+                                                             {
+                                                              echo " <font color='#FFFFFF'>Speak</font>";
+
+                                                             }  
+
+                                                            if ($row["lan_read"]== '1') 
+                                                            {
+                                                              echo " <font color='#FFFFFF'>Read</font>";
+                                                            }
+
+                                                            if ($row["lan_write"]  == '1') 
+                                                            {
+                                                              echo " <font color='#FFFFFF'>Write</font>";
+                                                            }
+               
+                                            echo "<br>";
+
+                                            echo"<font color='#FFAA33'>Uptime：</font> <font color='#FFFFFF'>"  . $row["update_time"] ."</font><br>";
 
                                             echo "<a href='show_personal_demand.php?demand_code=";
                                             echo $row["demand_code"] . "'> <input type='button' value='查看'></a>"; 
 
                                             echo "<hr>";
-                                            //echo $row["supply_description"] . "</td></tr>";
-                                            $j++;
+                                             //echo $row["supply_description"] . "</td></tr>";
+                                            
+                                             echo "</td>";
+           
+            echo "</tr>"; 
+            $j++;
+
                                           }
                                           //echo "</table>" ;
 
@@ -192,16 +257,16 @@
                                           mysqli_free_result($result);
                                           mysqli_close($link);
                                     ?>
-
-
-			                       <div class="top-big-link">
-                                        <input type="button" value='post' onclick = "location.href='demand_published.php'">
-                                   </div>
-									<p></p>	
-			                        
-
-			                    </form>
-		                  
+                    			                        
+                    			                    <hr>
+                    									<!--Summit buttun-->
+                    			                              <div class="top-big-link">
+                                                			  <input type="button" value='post' onclick = "location.href='demand_published.php'">
+                                                        </div>
+                    									<p></p>	
+                    			                        
+                    		</form>
+		                   
                         </div>
                     </div>
                 </div>

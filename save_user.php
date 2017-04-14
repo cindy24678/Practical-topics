@@ -37,7 +37,7 @@
     mysqli_close($link);
 
 
-    header("Location:user_information.html");
+    header("Location:user_information.php");
     exit;
 
  ?>

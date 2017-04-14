@@ -32,7 +32,7 @@
   //$link = mysqli_connect("localhost",'root',"08162426") or die;
 //mysqli_select_db($link,"chicken");
 
-$sql = "SELECT name,email,phone FROM user_information Where account = '$account'";
+$sql = "SELECT name,country,email,phone FROM user_information Where account = '$account'";
 
 //mysqli_query($link,'SET CHARACTER utf8');
 //mysqli_query($link,"SET collation_connection ='utf8_general_ci'");
@@ -42,6 +42,8 @@ $meta = mysqli_fetch_object($result);
 $name = $meta->name;
 $new_email = $meta->email;
 $new_phone = $meta->phone;
+$country = $meta->country;
+
 //$result = mysqli_query($link,$sql);
 //$row = mysqli_fetch_object($result);
 
@@ -161,14 +163,29 @@ $new_phone = $meta->phone;
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li><a href="homepage.html"><img src="assets/ico/logo.png" width="50" height="50"   ><font color="#FFAA33" > Homepage</font></a></li>
+            <li><a href="homepage.php"><img src="assets/ico/logo.png" width="50" height="50"   ><font color="#FFAA33" > Homepage</font></a></li>
             <li><a href="supply_page.php"><img src="assets/ico/post.png" width="50" height="50"><font color="#FFAA33" > Supply </font></a></li>
             <li><a href="demand_page.php"><img src="assets/ico/wishing well.png" width="50" height="50"><font color="#FFAA33" > Demand </font></a></li>
             <li><a href="before_use_member_center.php"><img src="assets/ico/member center.png" alt="" width="50" height="50" 
                                                                      onmouseout="this.src='assets/ico/member center.png'"
                                                                      onmouseover="this.src='assets/ico/member center click.png'"
                                                                      onclick="setBanner(); showFlag(); "/><font color="#FFAA33" > Member </font></a></li>
-            <li><a href="login.html"><img src="assets/ico/bar_sign in.png" width="50" height="50"><font color="#FFAA33" > Sign in </font></a></li>
+              <?php 
+                if (isset($_COOKIE["account"])){   //判斷cookie中是否已建立"account"
+                    
+                    if ($_COOKIE["account"] == null or $_COOKIE["account"] == ""){ //判斷"account"中是否有資料
+                        echo "<li><a href='login.html'><img src='assets/ico/bar_sign in.png' width='50' height='50'><font color='#FFAA33' > Sign in </font></a></li>";
+                       
+                    }else{
+                      
+                       echo" <li><a href='signout.php'><img src='assets/ico/bar_sign in.png' width='50' height='50'><font color='#FFAA33'> Sign out </font></a></li>";
+                       
+                    }
+                }else{
+                  echo "<li><a href='login.html'><img src='assets/ico/bar_sign in.png' width='50' height='50'><font color='#FFAA33' > Sign in </font></a></li>";
+                }
+
+          ?>                     
         
           </ul>
           
@@ -205,8 +222,7 @@ $new_phone = $meta->phone;
                            <h2> <span style="font-family:monospace;"><font color="orange">- order -</font> </span> </h2>    
                            <h3> <a href="placement_services_page.php"> <span style="font-family:monospace;"><font color="#00CC00">Placement services</font></span></a> </h3>  
                            <h3> <a href="wishing_pool_page.php"> <span style="font-family:monospace;"><font color="#0000FA">Wishing pool</span></font></a> </h3>  
-                           <h3> <a href="order_has_been_created_page.php"> <span style="font-family:monospace;"><font color="#7600CC">Order has been created</font></span></a> </h3>  
-                           <h3> <a href="order_has_been_not_created_page.php"> <span style="font-family:monospace;"><font color="#FFFFFF">Order has been not created</font></span></a> </h3>  
+                  
                            <h3> <a href="match.php"> <span style="font-family:monospace;"><font color="#BBBB00">match order</font></span></a> </h3>  
                         </div>
 
@@ -245,7 +261,11 @@ $new_phone = $meta->phone;
 			                        	<label class="sr-only" for="form-last-name">email</label>
 			                        	<input type="text" id="email" name="email" disabled="true" placeholder="<?php echo $new_email ?>" class="form-last-name form-control">
 			                        </div>
-			                        
+
+			                         <div class="form-group">
+                                        
+                                        <input type="text" id="country" name="country" disabled="true" value="<?php echo $country ?>" class="form-first-name form-control" >
+                                    </div>
 
                                         
 											

@@ -135,7 +135,7 @@
 							
 							<span class="li-social">
                            
-                                <a href="homepage.html"><img src="assets/ico/logo.png" width="100" height="100"></a> 
+                                <a href="homepage.php"><img src="assets/ico/logo.png" width="100" height="100"></a> 
                                
                                 <a href="supply_page.php"><img src="assets/ico/post.png" width="100" height="100"></a> 
                            
@@ -145,7 +145,22 @@
                                                                      onmouseout="this.src='assets/ico/member center.png'"
                                                                      onmouseover="this.src='assets/ico/member center click.png'"
                                                                      onclick="setBanner(); showFlag(); "/></a>
-                                <a href="login.html"><img src="assets/ico/bar_sign in.png" width="100" height="100"></a>
+                                <? php 
+                if (isset($_COOKIE["account"])){   //判斷cookie中是否已建立"account"
+                    
+                    if ($_COOKIE["account"] == null or $_COOKIE["account"] == ""){ //判斷"account"中是否有資料
+                        echo "<li><a href='login.html'><img src='assets/ico/bar_sign in.png' width='50' height='50'><font color='#FFAA33' > Sign in </font></a></li>";
+                       
+                    }else{
+                      
+                       echo" <li><a href='signout.php'><img src='assets/ico/bar_sign in.png' width='50' height='50'><font color='#FFAA33'> Sign out </font></a></li>";
+                       
+                    }
+                }else{
+                  echo "<li><a href='login.html'><img src='assets/ico/bar_sign in.png' width='50' height='50'><font color='#FFAA33' > Sign in </font></a></li>";
+                }
+
+             ?>               
 
                                
                             </span>

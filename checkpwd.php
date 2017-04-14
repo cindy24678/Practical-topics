@@ -33,7 +33,7 @@
   else
   {
     setcookie("account", $account, time() + 60 * 60);
-    header("Location:homepage.html");
+    header("Location:homepage.php");
   }
 
 
